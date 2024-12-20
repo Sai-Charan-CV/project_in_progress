@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Fields</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <script>
+        function updateParamTypeOptions(index) {
+            const type = document.querySelector(`#param_${index}`).value;
+            const detailsDiv = document.querySelector(`#param_details_${index}`);
+            detailsDiv.style.display = (type === 'list' || type === 'tuple' || type === 'dict') ? 'block' : 'none';
+        }
+
+        function updateReturnTypeOptions(index) {
+            const type = document.querySelector(`#return_type_${index}`).value;
+            const detailsDiv = document.querySelector(`#return_details_${index}`);
+            detailsDiv.style.display = (type === 'list' || type === 'tuple' || type === 'dict') ? 'block' : 'none';
+        }
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Dynamic Fields</h1>
+        <form method="POST">
+            <h3>Function Name: {{ function_name }}</h3>
+
+            <h3>Return Types</h3>
+            <div class="scroll-container">
+                {% for i in range(no_of_return_types) %}
+                    <label for="return_type_{{ i }}">Return Type {{ i+1 }}:</label>
+                    <select id="return_type_{{ i }}" name="return_type_{{ i }}" onchange="updateReturnTypeOptions({{ i }})">
+                        <option value="int">int</option>
+                        <option value="float">float</option>
+                        <option value="string">string</option>
+                        <option value="bool">bool</option>
+                        <option value="list">list</option>
+                        <option value="tuple">tuple</option>
+                        <option value="dict">dict</option>
+                    </select>
+                    <div id="return_details_{{ i }}" style="display:none;">
+                        <label>Specify type of list/tuple/dict elements:</label>
+                        <select name="return_details_{{ i }}">
+                            <option value="int">int</option>
+                            <option value="float">float</option>
+                            <option value="string">string</option>
+                            <option value="bool">bool</option>
+                        </select>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <h3>Parameters</h3>
+            <div class="scroll-container">
+                {% for i in range(no_of_parameters) %}
+                    <label for="param_{{ i }}">Parameter {{ i+1 }}:</label>
+                    <select id="param_{{ i }}" name="param_{{ i }}" onchange="updateParamTypeOptions({{ i }})">
+                        <option value="int">int</option>
+                        <option value="float">float</option>
+                        <option value="string">string</option>
+                        <option value="bool">bool</option>
+                        <option value="list">list</option>
+                        <option value="tuple">tuple</option>
+                        <option value="dict">dict</option>
+                    </select>
+                    <div id="param_details_{{ i }}" style="display:none;">
+                        <label>Specify type of list/tuple/dict elements:</label>
+                        <select name="param_details_{{ i }}">
+                            <option value="int">int</option>
+                            <option value="float">float</option>
+                            <option value="string">string</option>
+                            <option value="bool">bool</option>
+                        </select>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="submit-button">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+
+        <div class="levels">
+            <div class="level"></div>
+            <div class="level active"></div>
+            <div class="level"></div>
+        </div>
+    </div>
+</body>
+</html>
